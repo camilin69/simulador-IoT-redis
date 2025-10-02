@@ -1,0 +1,33 @@
+# docker-compose.yml
+
+# Versión del formato de Docker Compose. '3.8' es una versión moderna y estable.
+version: "3.8"
+
+# Definición de los servicios (contenedores) que compondrán tu aplicación.
+services:
+  # Servicio para la base de datos en memoria Redis.
+  redis:
+    # Usa la imagen oficial de Redis desde Docker Hub.
+    image: "redis:alpine"
+    # Le da un nombre descriptivo al contenedor para identificarlo fácilmente.
+    container_name: redis_iot_service
+    # Mapea el puerto 6379 de tu máquina (host) al puerto 6379 del contenedor.
+    # Esto permite que tu script de Python (corriendo en el host) se conecte a Redis (corriendo en el contenedor).
+    ports:
+      - "6379:6379"
+    # Define una política de reinicio. 'unless-stopped' reinicia el contenedor
+    # automáticamente si se cae, a menos que lo hayas detenido manualmente.
+    restart: unless-stopped
+
+  # --- Espacio para el futuro servicio web ---
+  # Aquí es donde añadirías la configuración para tu aplicación web (backend/web_app.py)
+  # cuando esté lista para ser contenedorizada.
+  #
+  # web_app:
+  #   build: ./backend
+  #   container_name: web_app_iot_service
+  #   ports:
+  #     - "5000:5000"
+  #   depends_on:
+  #     - redis
+  #   restart: unless-stopped
