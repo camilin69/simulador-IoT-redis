@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simulador IoT - Subscriber</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Simulador IoT - Datos climáticos en tiempo real</h1>
+    </header>
+    <main>
+      <section class="charts">
+        <canvas id="tempChart"></canvas>
+        <canvas id="humChart"></canvas>
+        <canvas id="windChart"></canvas>
+      </section>
+      <section class="sensors">
+        <h2>Últimos valores por sensor</h2>
+        <ul id="sensorList"></ul>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+  </body>
+</html>

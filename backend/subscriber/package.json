@@ -1,0 +1,14 @@
+{
+  "name": "iot-subscriber",
+  "version": "1.0.0",
+  "description": "Subscriber web app that listens to Redis clima:* channels and broadcasts via Socket.IO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "socket.io": "^4.7.2"
+  }
+}

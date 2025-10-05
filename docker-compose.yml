@@ -23,11 +23,11 @@ services:
   # Aquí es donde añadirías la configuración para tu aplicación web (backend/web_app.py)
   # cuando esté lista para ser contenedorizada.
   #
-  # web_app:
-  #   build: ./backend
-  #   container_name: web_app_iot_service
-  #   ports:
-  #     - "5000:5000"
-  #   depends_on:
-  #     - redis
-  #   restart: unless-stopped
+  web_app:
+    build: ./backend/subscriber
+    container_name: web_app_iot_service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    restart: unless-stopped
