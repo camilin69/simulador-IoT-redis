@@ -1,9 +1,0 @@
-body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; }
-header { background: #1e90ff; color: white; padding: 12px 20px; }
-main { display: flex; gap: 20px; padding: 20px; }
-.charts { flex: 2; display: grid; grid-template-columns: 1fr; gap: 16px; }
-.charts canvas { background: #fff; border: 1px solid #ddd; padding: 8px; }
-.sensors { flex: 1; background: #f7f7f7; padding: 12px; border-radius: 6px; }
-#sensorList { list-style: none; padding: 0; margin: 0; }
-#sensorList li { padding: 6px 4px; border-bottom: 1px solid #eee; }
-.ts { color: #666; font-size: 0.85em; margin-left: 8px; }

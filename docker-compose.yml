@@ -1,33 +1,56 @@
-# docker-compose.yml
-
-# Versión del formato de Docker Compose. '3.8' es una versión moderna y estable.
 version: "3.8"
 
-# Definición de los servicios (contenedores) que compondrán tu aplicación.
 services:
-  # Servicio para la base de datos en memoria Redis.
   redis:
-    # Usa la imagen oficial de Redis desde Docker Hub.
     image: "redis:alpine"
-    # Le da un nombre descriptivo al contenedor para identificarlo fácilmente.
     container_name: redis_iot_service
-    # Mapea el puerto 6379 de tu máquina (host) al puerto 6379 del contenedor.
-    # Esto permite que tu script de Python (corriendo en el host) se conecte a Redis (corriendo en el contenedor).
     ports:
       - "6379:6379"
-    # Define una política de reinicio. 'unless-stopped' reinicia el contenedor
-    # automáticamente si se cae, a menos que lo hayas detenido manualmente.
     restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
 
-  # --- Espacio para el futuro servicio web ---
-  # Aquí es donde añadirías la configuración para tu aplicación web (backend/web_app.py)
-  # cuando esté lista para ser contenedorizada.
-  #
-  web_app:
-    build: ./backend/subscriber
-    container_name: web_app_iot_service
-    ports:
-      - "3000:3000"
+  sensor-publisher:
+    build: 
+      context: ./backend/publisher
+      dockerfile: Dockerfile.publisher
+    container_name: sensor_publisher
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - redis
     restart: unless-stopped
+
+  web-subscriber:
+    build:
+      context: ./backend/subscriber
+      dockerfile: Dockerfile.subscriber
+    container_name: web_subscriber
+    ports:
+      - "3001:3000"  # ✅ Host:3001 -> Contenedor:3000
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # NO incluyas PORT aquí, déjalo que use el default (3000)
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: frontend_app
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_WS_URL=http://localhost:3001
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - web-subscriber
+    restart: unless-stopped
+
+volumes:
+  redis_data:

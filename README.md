@@ -21,3 +21,9 @@ Reto: En grupos de 3, simular un sistema IoT en vivo con datos de clima.
     - Gráfica de humedad vs tiempo
     - Gráfica de presión vs tiempo
     - Mapa de calor (heatmap) de las diferentes ubicaciones de los sensores
+
+# Ejecución
+
+1. Ubicarse en la carpeta /simulador-IoT-redis/
+2. Ejecutar `docker-compose up --build`
+3. Abrir en el navegador web `http://localhost:3000/`
